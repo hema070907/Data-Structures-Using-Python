@@ -1,0 +1,56 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+        print(f"{item} pushed into stack")
+
+    def pop(self):
+        if len(self.stack) == 0:
+            print("Stack Underflow")
+        else:
+            print("Popped element:", self.stack.pop())
+
+    def peek(self):
+        if len(self.stack) == 0:
+            print("Stack is Empty")
+        else:
+            print("Top element:", self.stack[-1])
+
+    def display(self):
+        if len(self.stack) == 0:
+            print("Stack is Empty")
+        else:
+            print("Stack:", self.stack)
+s = Stack()
+while True:
+    print("1. Push")
+    print("2. Pop")
+    print("3. Peek")
+    print("4. Display")
+    print("5. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    match choice:
+        case 1:
+            item = int(input("Enter element to push: "))
+            s.push(item)
+
+        case 2:
+            s.pop()
+
+        case 3:
+            s.peek()
+
+        case 4:
+            s.display()
+
+        case 5:
+            print("Exiting...")
+            break
+
+        case _:
+            print("Invalid choice! Please try again.")
+
