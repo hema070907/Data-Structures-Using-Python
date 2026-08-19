@@ -1,0 +1,164 @@
+class Node:
+    def __init__(self, entry_time, visitor_name):
+        self.entry_time = entry_time
+        self.visitor_name = visitor_name
+        self.left = None
+        self.right = None
+
+
+class LogbookBST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, entry_time, visitor_name):
+        self.root = self._insert(self.root, entry_time, visitor_name)
+
+    def _insert(self, root, entry_time, visitor_name):
+        if root is None:
+            return Node(entry_time, visitor_name)
+
+        if entry_time < root.entry_time:
+            root.left = self._insert(root.left, entry_time, visitor_name)
+
+        elif entry_time > root.entry_time:
+            root.right = self._insert(root.right, entry_time, visitor_name)
+
+        else:
+            print("Duplicate entry time is not allowed.")
+
+        return root
+
+    def search(self, entry_time):
+        return self._search(self.root, entry_time)
+
+    def _search(self, root, entry_time):
+        if root is None:
+            return False
+
+        if root.entry_time == entry_time:
+            return True
+
+        if entry_time < root.entry_time:
+            return self._search(root.left, entry_time)
+
+        return self._search(root.right, entry_time)
+
+    def delete(self, entry_time):
+        if not self.search(entry_time):
+            print("Entry not found.")
+        else:
+            self.root = self._delete(self.root, entry_time)
+            print("Entry deleted successfully.")
+
+    def _delete(self, root, entry_time):
+        if root is None:
+            return None
+
+        if entry_time < root.entry_time:
+            root.left = self._delete(root.left, entry_time)
+
+        elif entry_time > root.entry_time:
+            root.right = self._delete(root.right, entry_time)
+
+        else:
+            if root.left is None and root.right is None:
+                return None
+
+            if root.left is None:
+                return root.right
+
+            if root.right is None:
+                return root.left
+
+            successor = self._min_value(root.right)
+
+            root.entry_time = successor.entry_time
+            root.visitor_name = successor.visitor_name
+
+            root.right = self._delete(
+                root.right,
+                successor.entry_time
+            )
+
+        return root
+
+    def _min_value(self, root):
+        current = root
+
+        while current.left is not None:
+            current = current.left
+
+        return current
+
+    def display(self):
+        if self.root is None:
+            print("Logbook is empty.")
+        else:
+            print("\nVisitor Logbook - Sorted by Entry Time:")
+            self._inorder(self.root)
+
+    def _inorder(self, root):
+        if root is not None:
+            self._inorder(root.left)
+
+            print(
+                "Entry Time:", format(root.entry_time, ".2f"),
+                "| Visitor Name:", root.visitor_name
+            )
+
+            self._inorder(root.right)
+
+    def count(self):
+        return self._count(self.root)
+
+    def _count(self, root):
+        if root is None:
+            return 0
+
+        return 1 + self._count(root.left) + self._count(root.right)
+
+
+logbook = LogbookBST()
+
+while True:
+    print("\n----- VISITOR LOGBOOK -----")
+    print("1. Add Entry")
+    print("2. Delete Entry")
+    print("3. Search Entry")
+    print("4. Display Entries")
+    print("5. Total Entries")
+    print("6. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        visitor_name = input("Enter visitor name: ")
+        entry_time = float(input("Enter entry time : "))
+
+        logbook.insert(entry_time, visitor_name)
+        print("Entry added successfully.")
+
+    elif choice == 2:
+        entry_time = float(input("Enter entry time to delete: "))
+        logbook.delete(entry_time)
+
+    elif choice == 3:
+        entry_time = float(input("Enter entry time to search: "))
+
+        if logbook.search(entry_time):
+            print("Entry found.")
+        else:
+            print("Entry not found.")
+
+    elif choice == 4:
+        logbook.display()
+
+    elif choice == 5:
+        print("Total number of entries:", logbook.count())
+
+    elif choice == 6:
+        print("Program terminated.")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
