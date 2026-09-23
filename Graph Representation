@@ -1,0 +1,19 @@
+v = int(input("Enter number of vertices: "))
+edges = eval(input("Enter edges as list of tuples: "))
+matrix = [[0] * v for _ in range(v)]
+for u, w in edges:
+    matrix[u][w] = 1
+    matrix[w][u] = 1
+print("\nAdjacency Matrix:")
+for row in matrix:
+    print(row)
+adj_list = [[] for _ in range(v)]
+for u,w in edges:
+    adj_list[u].append(w)
+    adj_list[w].append(u)
+print("\nAdjacency List:")
+for i in range(v):
+    print(i, ":", adj_list[i])
+
+
+
