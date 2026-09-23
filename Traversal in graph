@@ -1,0 +1,49 @@
+from collections import deque
+
+v = int(input("Enter number of vertices: "))
+edges = eval(input("Enter edges: "))
+start = int(input("Enter starting vertex: "))
+
+graph = {i: [] for i in range(v)}
+
+for u, w in edges:
+    graph[u].append(w)
+    graph[w].append(u)
+
+
+def bfs(start):
+    visited = {start}
+    q = deque([start])
+    result = []
+
+    while q:
+        node = q.popleft()
+        result.append(node)
+
+        for n in graph[node]:
+            if n not in visited:
+                visited.add(n)
+                q.append(n)
+
+    return result
+
+
+def dfs(start):
+    visited = set()
+    result = []
+
+    def visit(node):
+        visited.add(node)
+        result.append(node)
+
+        for n in graph[node]:
+            if n not in visited:
+                visit(n)
+
+    visit(start)
+    return result
+
+
+print("BFS:", bfs(start))
+print("DFS:", dfs(start))
+
