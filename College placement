@@ -1,0 +1,40 @@
+class Student:
+    def __init__(self, id, name, cgpa):
+        self.id = id
+        self.name = name
+        self.cgpa = cgpa
+
+    def display(self):
+        print(self.id, self.name, self.cgpa)
+
+
+students = []
+
+n = int(input("Enter number of students: "))
+
+# Get student details from user
+for i in range(n):
+    print("\nEnter details of student", i + 1)
+
+    id = int(input("Enter Student ID: "))
+    name = input("Enter Student Name: ")
+    cgpa = float(input("Enter CGPA: "))
+
+    students.append(Student(id, name, cgpa))
+
+# Display student details
+print("\nCOLLEGE PLACEMENT MANAGEMENT SYSTEM")
+print("-----------------------------------")
+print("ID\tName\tCGPA")
+
+for s in students:
+    s.display()
+
+# Check placement eligibility
+print("\nPLACEMENT ELIGIBILITY")
+
+for s in students:
+    if s.cgpa >= 6.0:
+        print(s.name, "- Eligible")
+    else:
+        print(s.name, "- Not Eligible")
